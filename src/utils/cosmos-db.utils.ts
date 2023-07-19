@@ -6,7 +6,7 @@ export const transformServerResponse = (response: any): BookModel[] => response.
     return transformedObject;
   })
 
-export const searchBookByTitle = async (title?: string): Promise<any> => {
+export const searchBookByTitle = async (searchTerm?: string, searchField?: string): Promise<any> => {
   const url = process.env.REACT_APP_LOCAL ? 'http://localhost:7071/api/searchBooks' : '/api/searchBooks'
-  return fetch(`${url}${title ? `?title=${title}` : ''}`);
+  return fetch(`${url}${searchTerm ? `?${searchField}=${searchTerm}` : ''}`);
 }
