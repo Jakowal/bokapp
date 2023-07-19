@@ -25,6 +25,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start-func": "cd api && npm run build && cd.. && npm run build && swa start build --api-location api",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

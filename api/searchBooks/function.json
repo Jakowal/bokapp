@@ -11,9 +11,13 @@
       ]
     },
     {
-      "type": "http",
+      "type": "cosmosDB",
       "direction": "out",
-      "name": "res"
+      "name": "outputDocument",
+      "databaseName": "ToDoList",
+      "collectionName": "Items",
+      "createIfNotExists": "false",
+      "connectionStringSetting": "REACT_APP_COSMOS_KEY"
     }
   ],
   "scriptFile": "../dist/searchBooks/index.js"
