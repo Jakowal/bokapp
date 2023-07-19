@@ -1,6 +1,6 @@
 import {Table} from "react-bootstrap";
 import {BookModel, BookModelFieldTranslationsFromEnglish} from "../models/BookModel";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 interface Props {
   data: BookModel[];
@@ -24,7 +24,9 @@ const TableComponent = (
 
   const [shownColumns, setShownColumns] = useState<(keyof BookModel)[]>(defaultColumns)
 
-
+  useEffect(() => {
+    setShownColumns(defaultColumns)
+  }, [])
 
   return (
     <Table bordered striped hover size="sm">
