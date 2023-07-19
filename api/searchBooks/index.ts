@@ -4,7 +4,6 @@ import {CosmosClient} from "@azure/cosmos";
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<any> {
 
     context.res = {
-        ...context.res,
         headers: {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Credentials' : 'true', // Needed for cookies, authorization headers with HTTPS
@@ -52,9 +51,12 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
         // Get items
         const { resources } = await container.items.query(querySpec).fetchAll();
 
-        console.log('Fetched' + resources)
+        context.res = {
+            ...context.res,
+            body: resources,
+        }
 
-        return resources;
+        return JSON.stringify(resources);
     }
 };
 

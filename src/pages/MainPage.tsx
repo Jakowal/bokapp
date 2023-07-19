@@ -16,11 +16,8 @@ const MainPage = () => {
   useEffect(() => {
     if (runSearch) {
       searchBookByTitle(searchTerm)
-        .then(result => {
-          if (result) {
-            setData(transformServerResponse(result))
-          }
-        })
+        .then(result => result.json())
+        .then(result => setData(transformServerResponse(result)))
       setRunSearch(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
