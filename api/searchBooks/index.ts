@@ -88,8 +88,6 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
         const container = cosmosClient.database(databaseName).container(containerName);
 
         const [field, value] = Object.entries(req.query)[0];
-
-        console.log(`SELECT * FROM c WHERE c["${fieldTranslations[field]}"]="@${field}"`)
         console.log({
             name: `@${field}`,
             value: value
