@@ -1,0 +1,7 @@
+{
+  "route": "/",
+  "allowedRoles": ["authenticated"],
+  "headers": {
+    "Cache-Control": "no-store"
+  }
+}

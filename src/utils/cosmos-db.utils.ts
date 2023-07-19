@@ -1,6 +1,13 @@
 import { CosmosClient } from '@azure/cosmos';
+import {BookModel, BookModelFieldTranslationsFromNorwegian} from "../models/BookModel";
 
-export const testDBConnection = async () => {
+export const transformServerResponse = (response: any[]): BookModel[] => response.map(entry => {
+  const transformedObject: any = {};
+  Object.entries(entry).map(value => transformedObject[BookModelFieldTranslationsFromNorwegian[value[0]]] = value[1])
+  return transformedObject;
+});
+
+export const searchBookByTitle = async (title: string): Promise<any> => {
 
   const endpoint = process.env.REACT_APP_COSMOS_ENDPOINT;
   const key = process.env.REACT_APP_COSMOS_KEY;
@@ -21,19 +28,21 @@ export const testDBConnection = async () => {
     // Read item by id and partitionKey - least expensive `find`
     // Query by SQL - more expensive `find`
 // find all items with same categoryId (partitionKey)
-    const querySpec = {
+    const querySpec = title ? {
       query: "SELECT * FROM c WHERE c.Tittel=@tittel",
       parameters: [
         {
           name: "@tittel",
-          value: "Smak"
+          value: title
         }
       ]
+    } : {
+      query: "SELECT TOP 10 * FROM c",
     };
 
 // Get items
     const { resources } = await container.items.query(querySpec).fetchAll();
 
-    console.log(resources)
+    return resources;
   }
 }
