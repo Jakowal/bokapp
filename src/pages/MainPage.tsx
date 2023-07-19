@@ -15,7 +15,7 @@ const MainPage = () => {
 
   useEffect(() => {
     if (runSearch) {
-      searchBookByTitle(searchTerm)
+      searchBookByTitle(/*searchTerm*/)
         .then(result => {
           if (result) {
             setData(transformServerResponse(result))
