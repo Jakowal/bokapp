@@ -1,5 +1,5 @@
 export interface BookModel   {
-  id?: number,
+  id?: string;
   authorLastName?: string;
   authorFirstName?: string
   title?: string;
@@ -14,6 +14,7 @@ export interface BookModel   {
   catalogueNumber?: number;
   catalogueBookNumber?: number,
   saleDate?: Date;
+  bookNumber?: number,
   catalogueEntry?: string;
   newCatalogueEntry?: string;
   string?: string;
@@ -56,7 +57,8 @@ export interface BookModel   {
   todaysDate?: string
 }
 export const BookModelFieldTranslationsFromEnglish: {[key in keyof BookModel]: string } = {
-  id: 'boknummer',
+  id: "id",
+  bookNumber: 'boknummer',
   authorLastName: 'Forfatter etternavn',
   authorFirstName: 'Forfatter fornavn',
   title: 'Tittel',
@@ -113,6 +115,7 @@ export const BookModelFieldTranslationsFromEnglish: {[key in keyof BookModel]: s
   todaysDate: 'd dato',
 }
 export const BookModelFieldTranslationsFromNorwegian: {[key: string]: keyof BookModel} = {
+  "id": "id",
   'Forfatter etternavn': 'authorLastName',
   'Forfatter fornavn': 'authorFirstName',
   'Tittel': 'title',
@@ -125,7 +128,7 @@ export const BookModelFieldTranslationsFromNorwegian: {[key: string]: keyof Book
   'Solgt for': 'soldFor',
   'Solgt til': 'soldTo',
   'Katalog nr.': 'catalogueNumber',
-  'boknummer': 'id',
+  'boknummer': 'bookNumber',
   'katalogboknummer': 'catalogueBookNumber',
   'Salgsdato': 'saleDate',
   'kataloginnskrift': 'catalogueEntry',

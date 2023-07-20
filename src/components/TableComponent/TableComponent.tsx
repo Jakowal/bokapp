@@ -1,23 +1,24 @@
-import {Table} from "react-bootstrap";
+import {Button, Table} from "react-bootstrap";
 import {BookModel, BookModelFieldTranslationsFromEnglish} from "../../models/BookModel";
 import {useEffect, useState} from "react";
 
 interface Props {
   data: BookModel[];
+  selectBook: (book: BookModel) => void;
 }
 
 const defaultColumns: (keyof BookModel)[] = [
   'authorLastName',
   'authorFirstName',
   'title',
-  'id',
   'edition',
   'registeredDate',
 ]
 
 const TableComponent = (
   {
-    data
+    data,
+    selectBook,
   }: Props
 ) => {
 
@@ -38,6 +39,7 @@ const TableComponent = (
       <tbody>
         { data.map(entry => (
           <tr key={entry.id}>
+            <td><Button onClick={() => selectBook(entry)}>Rediger</Button></td>
             {
               shownColumns.map(field => (
               <td key={entry[field] as string}>{entry[field] as string}</td>
