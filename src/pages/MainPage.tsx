@@ -1,7 +1,7 @@
-import {searchBookByTitle, transformServerResponse} from "../utils/cosmos-db.utils";
+import {addBook, searchBookByTitle, transformServerResponse} from "../utils/cosmos-db.utils";
 import {useEffect, useState} from "react";
-import TableComponent from "../components/TableComponent";
-import SearchComponent from "../components/SearchComponent";
+import TableComponent from "../components/TableComponent/TableComponent";
+import SearchComponent from "../components/SearchComponent/SearchComponent";
 import { Button, Dropdown } from "react-bootstrap";
 import { BookModel, BookModelFieldTranslationsFromEnglish } from "../models/BookModel";
 
@@ -47,6 +47,7 @@ const MainPage = () => {
         </Dropdown.Menu>
       </Dropdown>
       <TableComponent data={data}/>
+      <Button onClick={() => addBook(false)}>Ny bok</Button>
     </>
   )
 }

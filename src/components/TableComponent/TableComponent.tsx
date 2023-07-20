@@ -1,5 +1,5 @@
 import {Table} from "react-bootstrap";
-import {BookModel, BookModelFieldTranslationsFromEnglish} from "../models/BookModel";
+import {BookModel, BookModelFieldTranslationsFromEnglish} from "../../models/BookModel";
 import {useEffect, useState} from "react";
 
 interface Props {

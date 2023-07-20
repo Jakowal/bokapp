@@ -66,7 +66,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
             'Content-Type': 'application/json',
             'Access-Control-Allow-Credentials' : 'true', // Needed for cookies, authorization headers with HTTPS
             'Access-Control-Allow-Origin' : process.env.REACT_APP_LOCAL ? 'http://localhost:3000' : 'https://orange-smoke-0ea5f2d03.3.azurestaticapps.net', // Allow from this origin
-            'Access-Control-Allow-Methods' : 'GET,POST', // Allow these verbs
+            'Access-Control-Allow-Methods' : 'GET', // Allow these verbs
             'Access-Control-Allow-Headers' : 'Authorization, Origin, X-Requested-With, Content-Type, Accept'
         },
     }
@@ -90,7 +90,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
         const [field, value] = Object.entries(req.query)[0];
 
         const querySpec = field && value ? {
-            query: `SELECT * FROM c WHERE c["${fieldTranslations[field]}"] LIKE @${field}`,
+            query: `SELECT * FROM c WHERE UPPER(c["${fieldTranslations[field]}"]) LIKE UPPER(@${field})`,
             parameters: [
                 {
                     name: `@${field}`,
@@ -106,10 +106,8 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 
         context.res = {
             ...context.res,
-            body: resources,
+            body: JSON.stringify(resources),
         }
-
-        return JSON.stringify([]);
     }
 };
 
