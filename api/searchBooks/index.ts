@@ -74,6 +74,8 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     const endpoint = process.env.REACT_APP_COSMOS_ENDPOINT;
     const key = process.env.REACT_APP_COSMOS_KEY;
 
+    console.trace(req)
+
     // Set Database name and container name
     const databaseName = 'ToDoList';
     const containerName = 'Items';
@@ -86,6 +88,8 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
         });
 
         const container = cosmosClient.database(databaseName).container(containerName);
+
+        console.trace(container)
 
         const [field, value] = Object.entries(req.query)[0];
         console.log({
@@ -105,8 +109,12 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
             query: "SELECT TOP 10 * FROM c",
         };
 
+        console.trace(querySpec)
+
         // Get items
         const { resources } = await container.items.query(querySpec).fetchAll();
+
+        console.trace(resources)
 
         context.res = {
             ...context.res,
