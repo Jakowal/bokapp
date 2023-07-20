@@ -7,7 +7,6 @@
     "@azure/cosmos": "^3.17.3",
     "@azure/identity": "^3.2.3",
     "@azure/keyvault-secrets": "^4.7.0",
-    "@microsoft/applicationinsights-web": "^3.0.2",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
