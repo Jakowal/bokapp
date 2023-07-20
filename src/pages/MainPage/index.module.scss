@@ -1,0 +1,13 @@
+@import 'src/_variables.scss';
+
+body {
+  overflow-y: hidden;
+  background: $background-color;
+}
+
+.mainPage {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}

@@ -1,6 +1,7 @@
 import {Button, Table} from "react-bootstrap";
 import {BookModel, BookModelFieldTranslationsFromEnglish} from "../../models/BookModel";
 import {useEffect, useState} from "react";
+import Style from './index.module.scss';
 
 interface Props {
   data: BookModel[];
@@ -30,28 +31,30 @@ const TableComponent = (
   }, [])
 
   return (
-    <Table bordered striped hover size="sm">
-      <thead>
-      <tr>
-        { shownColumns.map(value => <th key={value}>{BookModelFieldTranslationsFromEnglish[value]}</th>) }
-      </tr>
-      </thead>
-      <tbody>
+    <div className={Style.tableContainer}>
+      <Table bordered striped hover size="sm" className={Style.table}>
+        <thead>
+        <tr>
+          { shownColumns.map(value => <th key={value}>{BookModelFieldTranslationsFromEnglish[value]}</th>) }
+        </tr>
+        </thead>
+        <tbody className={Style.tableBody}>
         { data.map(entry => (
           <tr key={entry.id}>
             <td><Button onClick={() => selectBook(entry)}>Rediger</Button></td>
             {
               shownColumns.map(field => (
-              <td key={entry[field] as string}>{entry[field] as string}</td>
-            ))
-          }
+                <td key={entry[field] as string}>{entry[field] as string}</td>
+              ))
+            }
           </tr>
         ))}
-      </tbody>
-      <tfoot>
+        </tbody>
+        <tfoot>
 
-      </tfoot>
-    </Table>
+        </tfoot>
+      </Table>
+    </div>
   )
 }
 

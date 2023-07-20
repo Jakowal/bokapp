@@ -1,0 +1,19 @@
+@import 'src/_variables.scss';
+
+.table {
+  max-height: 800px;
+  width: 800px;
+}
+
+.tableContainer {
+  padding: $standard-padding;
+  border-radius: $standard-corner-radius;
+  background-color: $light-background;
+  outline: 1px solid $border-color;
+  height: 800px;
+
+  .tableBody {
+    height: 100%;
+    overflow-y: auto;
+  }
+}
