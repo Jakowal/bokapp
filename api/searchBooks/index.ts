@@ -65,7 +65,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
         headers: {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Credentials' : 'true', // Needed for cookies, authorization headers with HTTPS
-            'Access-Control-Allow-Origin' : 'https://orange-smoke-0ea5f2d03.3.azurestaticapps.net', // Allow from this origin
+            'Access-Control-Allow-Origin' : process.env.REACT_APP_LOCAL ? 'http://localhost:3000' : 'https://orange-smoke-0ea5f2d03.3.azurestaticapps.net', // Allow from this origin
             'Access-Control-Allow-Methods' : 'GET,POST', // Allow these verbs
             'Access-Control-Allow-Headers' : 'Authorization, Origin, X-Requested-With, Content-Type, Accept'
         },
@@ -73,8 +73,6 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 
     const endpoint = process.env.REACT_APP_COSMOS_ENDPOINT;
     const key = process.env.REACT_APP_COSMOS_KEY;
-
-    console.trace(req)
 
     // Set Database name and container name
     const databaseName = 'ToDoList';
@@ -89,13 +87,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 
         const container = cosmosClient.database(databaseName).container(containerName);
 
-        console.trace(container)
-
         const [field, value] = Object.entries(req.query)[0];
-        console.log({
-            name: `@${field}`,
-            value: value
-        })
 
         const querySpec = field && value ? {
             query: `SELECT * FROM c WHERE c["${fieldTranslations[field]}"] LIKE @${field}`,
@@ -107,21 +99,17 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
             ]
         } : {
             query: "SELECT TOP 10 * FROM c",
-        };
-
-        console.trace(querySpec)
+        }
 
         // Get items
         const { resources } = await container.items.query(querySpec).fetchAll();
-
-        console.trace(resources)
 
         context.res = {
             ...context.res,
             body: resources,
         }
 
-        return JSON.stringify(resources);
+        return JSON.stringify([]);
     }
 };
 
