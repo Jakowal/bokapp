@@ -17,8 +17,8 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     const key = process.env.REACT_APP_COSMOS_KEY;
 
     // Set Database name and container name
-    const databaseName = 'ToDoList';
-    const containerName = 'Items';
+    const databaseName = process.env.REACT_APP_COSMOS_DB;
+    const containerName = process.env.REACT_APP_COSMOS_CONTAINER;
 
     const item = req.body;
 

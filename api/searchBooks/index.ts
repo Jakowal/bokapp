@@ -1,64 +1,6 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions"
 import {CosmosClient} from "@azure/cosmos";
 
-const fieldTranslations: {[key: string]: string } = {
-    id: 'boknummer',
-    authorLastName: 'Forfatter etternavn',
-    authorFirstName: 'Forfatter fornavn',
-    title: 'Tittel',
-    price: 'Pris',
-    condition: 'Tilstand',
-    totalprice: 'Totalpris',
-    sold: 'Solgt',
-    category: 'Kategori',
-    subtitle: 'Undertittel',
-    soldFor: 'Solgt for',
-    soldTo: 'Solgt til',
-    catalogueNumber: 'Katalog nr.',
-    catalogueBookNumber: 'katalogboknummer',
-    saleDate: 'Salgsdato',
-    catalogueEntry: 'kataloginnskrift',
-    newCatalogueEntry: 'Ny kataloginnskrift',
-    string: 'Streng',
-    comma: 'Komma',
-    colon: 'Kolon',
-    authorEntry: 'Forfatterinnskrift',
-    publishedPlace: 'Utgivelsessted',
-    publishedYear: 'Utgivelsesår',
-    totalNumberPublished: 'Antall eks.',
-    subCategory: 'Underkategori',
-    firstLetter: 'Forbokstav',
-    fulAuthorName: 'Fult forfatternavn',
-    catalogueEntrySubNumber: 'Kataloginnskrift u nr',
-    comment: 'Kommentar',
-    boughtFor: 'Kjøpt for',
-    amountBoughtFor: 'Sum kjøpt for',
-    edition: 'Utgave',
-    numberOfBooks: 'Antall verk',
-    gainOrLoss: 'Gevinst eller tap',
-    gainOrLossTotal: 'Sum gevinst eller tap',
-    purchaseDate: 'Kjøpsdato',
-    registeredDate: 'Registreringsdato',
-    alternateName: 'Alternativt navn',
-    placeReference: 'Plassreferanse',
-    format: 'Format',
-    binding: 'Innbinding',
-    pageCount: 'Sideantall',
-    soldStatisticsName: 'Solgtstatistikknavn',
-    totalPageCount: 'Sum sideantall',
-    firstEditionTest: 'Førsteutgavetest',
-    totalFirstEditionCount: 'Sum av førsteutgaver',
-    categoryShortName: 'Kortnavn kategori',
-    categoryNumber: 'kategorisorteringsnummer',
-    catalogueEntryShort: 'kataloginnskrift kort',
-    soldText: 'Solgttekst',
-    nameSorting: 'Navnesortering',
-    store: 'Antikvariat',
-    firstLetterCategory: 'Forbokstav kategori',
-    catalogueEntryShortSubPlace: 'kataloginnskrift kort u plass',
-    todaysDate: 'd dato',
-}
-
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<any> {
 
     context.res = {
@@ -75,8 +17,8 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     const key = process.env.REACT_APP_COSMOS_KEY;
 
     // Set Database name and container name
-    const databaseName = 'ToDoList';
-    const containerName = 'Items';
+    const databaseName = process.env.REACT_APP_COSMOS_DB;
+    const containerName = process.env.REACT_APP_COSMOS_CONTAINER;
 
     if (key && endpoint) {
         // Authenticate to Azure Cosmos DB
@@ -90,7 +32,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
         const [field, value] = Object.entries(req.query)[0];
 
         const querySpec = field && value ? {
-            query: `SELECT * FROM c WHERE UPPER(c["${fieldTranslations[field]}"]) LIKE UPPER(@${field})`,
+            query: `SELECT * FROM c WHERE UPPER(c.${field}) LIKE UPPER(@${field})`,
             parameters: [
                 {
                     name: `@${field}`,

@@ -1,4 +1,4 @@
-import {searchBookByTitle, transformServerResponse} from "../utils/cosmos-db.utils";
+import {searchBookByTitle} from "../utils/cosmos-db.utils";
 import {useEffect, useState} from "react";
 import TableComponent from "../components/TableComponent/TableComponent";
 import SearchComponent from "../components/SearchComponent/SearchComponent";
@@ -21,7 +21,7 @@ const MainPage = () => {
     if (runSearch) {
       searchBookByTitle(searchTerm, searchField)
         .then(response => response.json())
-        .then(result => setData(transformServerResponse(result)))
+        .then(result => setData(result))
       setRunSearch(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
