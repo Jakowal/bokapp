@@ -1,14 +1,97 @@
 @import 'src/_variables.scss';
 
-.titleSection {
+.headerContainer {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+  z-index: 2;
+
+  position: absolute;
   background-color: $light-background;
   border-bottom-left-radius: $standard-corner-radius;
   border-bottom-right-radius: $standard-corner-radius;
   outline: 1px solid $border-color;
   width: 1200px;
-  position: absolute;
   padding: $standard-padding;
+
+  &.expanded {
+    height: 400px;
+    gap: $standard-padding;
+  }
+
+  &.notExpanded {
+    height: 90px;
+    gap: calc($standard-padding * 2);
+  }
+
+  transition: all 0.2s linear;
+
+  .searchSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 $standard-padding;
+    height: inherit;
+    overflow-y: auto;
+    width: 100%;
+    gap: $standard-padding;
+  }
+
+  .dropdownButton {
+    transition: margin-top 0.2s;
+
+    &.invisible {
+      margin-top: calc(-38px - $standard-padding * 2);
+    }
+
+    &.visible {
+      margin-top: 0;
+    }
+
+    .dropdownMenu {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+  }
+
+  .newBookButton {
+    width: fit-content;
+    position: absolute;
+    left: $standard-padding;
+    top: $standard-padding;
+    white-space: nowrap;
+  }
+
+  .searchButton {
+    width: fit-content;
+    position: absolute;
+    right: $standard-padding;
+    top: $standard-padding;
+  }
+
+  .expandContainer {
+    all: unset;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: $light-background;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    border-top: 1px solid $vague-border-color;
+    border-bottom-left-radius: $standard-corner-radius;
+    border-bottom-right-radius: $standard-corner-radius;
+    padding: $small-padding 0;
+    height: 20px;
+    cursor: pointer;
+
+    .icon {
+      transition: transform 0.2s;
+
+      &.up {
+        transform: rotate(180deg);
+      }
+    }
+  }
 }

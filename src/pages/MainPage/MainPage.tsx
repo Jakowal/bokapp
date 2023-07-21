@@ -5,23 +5,25 @@ import { BookModel } from "../../models/BookModel";
 import BookModal from "../../components/BookModal";
 import Style from './index.module.scss';
 import HeaderComponent from "../../components/HeaderComponent";
+import {Spinner} from "react-bootstrap";
 
 
 const MainPage = () => {
 
   const [data, setData] = useState<BookModel[]>([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [searchField, setSearchField] = useState('Velg felt å søke på');
+  const [searchFields, setSearchFields] = useState<any>({});
   const [runSearch, setRunSearch] = useState(false);
   const [selectedBook, setSelectedBook] = useState<BookModel>();
   const [showModal, setShowModal] = useState(false);
-
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (runSearch) {
-      searchBookByTitle(searchTerm, searchField)
+    if (runSearch && searchFields) {
+      setLoading(true);
+      searchBookByTitle(searchFields)
         .then(response => response.json())
         .then(result => setData(result))
+        .finally(() => setLoading(false))
       setRunSearch(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -37,15 +39,45 @@ const MainPage = () => {
     setSelectedBook(undefined);
   }
 
+  const addSearchField = (field: string) => {
+    const newFields = {...searchFields};
+    newFields[field] = '';
+    setSearchFields(newFields);
+  }
+
+  const removeSearchField = (field: keyof BookModel) => {
+    const newFields: any = {};
+    Object.entries(searchFields).forEach(([f, value]) => {
+      if (f !== field) {
+        newFields[f] = value;
+      }
+    })
+    setSearchFields(newFields);
+  }
+
+  const changeSearchField = (field: keyof BookModel, value: string) => {
+    setSearchFields((fields: any) => {
+      fields[field] = value;
+      return fields;
+    })
+  }
+
   return (
     <div className={Style.mainPage}>
+      { loading ? (
+        <div className={Style.loadingContainer}>
+          <Spinner animation="border" role="status" className={Style.loading}>
+            <span className="visually-hidden">Laster...</span>
+          </Spinner>
+        </div>
+      ) : null}
       <HeaderComponent
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        setRunSearch={setRunSearch}
-        searchField={searchField}
-        setSearchField={setSearchField}
+        changeSearchField={changeSearchField}
+        runSearch={() => setRunSearch(true)}
+        searchFields={searchFields}
+        addSearchField={addSearchField}
         setShowModal={setShowModal}
+        removeSearchField={removeSearchField}
       />
       <TableComponent data={data} selectBook={selectBook}/>
       <BookModal show={showModal} hide={closeModal} bookToEdit={selectedBook}/>

@@ -10,4 +10,21 @@ body {
   flex-direction: column;
   width: 100%;
   align-items: center;
+
+  .loadingContainer {
+    position: absolute;
+    top: 45%;
+    left: 45%;
+
+    .loading {
+      height: 80px;
+      width: 80px;
+    }
+  }
+}
+
+.icon {
+  color: $border-color;
+  width: 20px;
+  height: 20px;
 }

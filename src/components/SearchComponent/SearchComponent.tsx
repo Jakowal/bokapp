@@ -1,19 +1,38 @@
+import { Form, InputGroup } from "react-bootstrap";
+import Style from './index.module.scss';
+import { BookModel, BookModelFieldTranslationsFromEnglish } from "../../models/BookModel";
+import Exit from "../../icons/exit.svg";
+
 interface Props {
-  searchTerm: string;
   setSearchTerm: (newTerm: string) => void;
+  searchField: string;
+  searchTerm: string;
+  remove: () => void;
 }
 
 const SearchComponent = (
   {
-    searchTerm,
     setSearchTerm,
+    searchField,
+    searchTerm,
+    remove,
   }: Props
 ) => {
 
-
-
   return (
-    <input value={searchTerm} onChange={change => setSearchTerm(change.currentTarget.value)}/>
+    <>
+      <InputGroup className={Style.inputField}>
+        <InputGroup.Text className={Style.inputText}>{ BookModelFieldTranslationsFromEnglish[searchField as unknown as keyof BookModel] || searchField }</InputGroup.Text>
+        <Form.Control
+          defaultValue={searchTerm}
+          onChange={change => setSearchTerm(change.target.value)}
+          className={Style.inputField}
+        />
+        <button className={Style.removeButton} onClick={remove}>
+          <img alt="Chevron" src={Exit} className={Style.icon}/>
+        </button>
+      </InputGroup>
+    </>
   )
 }
 

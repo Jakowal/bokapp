@@ -29,16 +29,19 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 
         const container = cosmosClient.database(databaseName).container(containerName);
 
-        const [field, value] = Object.entries(req.query)[0];
+        const parameters = []
 
-        const querySpec = field && value ? {
-            query: `SELECT * FROM c WHERE UPPER(c.${field}) LIKE UPPER(@${field})`,
-            parameters: [
-                {
-                    name: `@${field}`,
-                    value: `%${value}%`
-                }
-            ]
+        const query = Object.entries(req.query).map(([field, value], index) => {
+            parameters.push({
+                name: `@${field}`,
+                value: `%${value}%`
+            })
+            return index > 0 ? `AND UPPER(c.${field}) LIKE UPPER(@${field})` : `UPPER(c.${field}) LIKE UPPER(@${field})`;
+        });
+
+        const querySpec = query ? {
+            query: `SELECT * FROM c WHERE ${query.join(' ')}`,
+            parameters: parameters,
         } : {
             query: "SELECT TOP 10 * FROM c",
         }

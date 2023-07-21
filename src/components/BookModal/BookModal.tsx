@@ -2,6 +2,7 @@ import {Button, Form, InputGroup, Modal} from "react-bootstrap";
 import {BookModel, BookModelFieldTranslationsFromEnglish} from "../../models/BookModel";
 import {useEffect, useState} from "react";
 import {addBook, editBook} from "../../utils/cosmos-db.utils";
+import Style from './index.module.scss';
 
 interface Props {
   show: boolean;
@@ -26,16 +27,15 @@ const BookModal = (
 
   return (
     <>
-      <Modal centered show={show} onHide={hide}>
+      <Modal scrollable centered show={show} onHide={hide} className={Style.modal}>
         <Modal.Header closeButton>
           <Modal.Title>{bookToEdit ? 'Endre informasjon for bok' : 'Registrer ny bok'}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className={Style.modalBody}>
           {
             Object.entries(BookModelFieldTranslationsFromEnglish).map(([field, value]) => {
               return (
-              <>
-                <InputGroup size="sm" className="mb-3">
+                <InputGroup size="sm" className="mb-3" key={field}>
                   <InputGroup.Text>{value}</InputGroup.Text>
                   <Form.Control
                     defaultValue={bookToEdit ? bookToEdit[field as keyof BookModel] as string || '' : ''}
@@ -45,7 +45,6 @@ const BookModal = (
                     })}
                   />
                 </InputGroup>
-              </>
               )
             })
           }
