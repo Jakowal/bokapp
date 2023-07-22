@@ -10,6 +10,7 @@ interface Props {
   show: boolean;
   hide: () => void
   bookToEdit?: BookModel
+  runSearch: () => void;
 }
 
 const BookModal = (
@@ -17,6 +18,7 @@ const BookModal = (
     show,
     hide,
     bookToEdit,
+    runSearch,
   }: Props
 ) => {
 
@@ -63,8 +65,12 @@ const BookModal = (
             variant="primary"
             onClick={() => {
               hide();
-              if (user?.tenantId) {
-                bookToEdit ? editBook(user.tenantId, book!) : addBook(user.tenantId, book!);
+              if (bookToEdit) {
+                editBook(book!).finally(runSearch)
+              }
+              else {
+                book!.userId = user?.tenantId;
+                addBook(book!).finally(runSearch)
               }
             }}
           >Lagre</Button>

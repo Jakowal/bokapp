@@ -55,6 +55,7 @@ export interface BookModel   {
   firstLetterCategory?: string;
   catalogueEntryShortSubPlace?: string
   todaysDate?: string
+  userId?: string
 }
 export const BookModelFieldTranslationsFromEnglish: {[key in keyof BookModel]: string } = {
   id: "id",

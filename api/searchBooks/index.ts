@@ -9,7 +9,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
             'Access-Control-Allow-Credentials' : 'true', // Needed for cookies, authorization headers with HTTPS
             'Access-Control-Allow-Origin' : process.env.REACT_APP_LOCAL ? 'http://localhost:3000' : 'https://orange-smoke-0ea5f2d03.3.azurestaticapps.net', // Allow from this origin
             'Access-Control-Allow-Methods' : 'GET', // Allow these verbs
-            'Access-Control-Allow-Headers' : 'Authorization, Origin, X-Requested-With, Content-Type, Accept, x-tenant-id'
+            'Access-Control-Allow-Headers' : 'Authorization, Origin, X-Requested-With, Content-Type, Accept'
         },
     }
 
@@ -31,16 +31,22 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 
         const parameters = []
 
+        const tenantId = req.query.tenantId;
+
         const query = Object.entries(req.query).map(([field, value], index) => {
-            parameters.push({
-                name: `@${field}`,
-                value: `%${value}%`
-            })
-            return index > 0 ? `AND UPPER(c.${field}) LIKE UPPER(@${field})` : `UPPER(c.${field}) LIKE UPPER(@${field})`;
+            if (field !== 'tenantId') {
+
+                parameters.push({
+                    name: `@${field}`,
+                    value: `%${value}%`
+                })
+                return index > 0 ? `AND UPPER(c.${field}) LIKE UPPER(@${field})` : `UPPER(c.${field}) LIKE UPPER(@${field})`;
+            }
+            return null;
         });
 
         const querySpec = query ? {
-            query: `SELECT * FROM c WHERE ${query.join(' ')}`,
+            query: `SELECT * FROM c WHERE ${query.join(' ')} AND c.userId="${tenantId}"`,
             parameters: parameters,
         } : {
             query: "SELECT TOP 10 * FROM c",

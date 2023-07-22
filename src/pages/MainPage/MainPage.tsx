@@ -99,6 +99,7 @@ const MainPage = () => {
         show={showBookModal}
         hide={closeBookModal}
         bookToEdit={selectedBook}
+        runSearch={() => setRunSearch(true)}
       />
       <ColumnModal
         show={showColumnModal}
