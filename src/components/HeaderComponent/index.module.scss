@@ -1,29 +1,118 @@
 @import 'src/_variables.scss';
 
+
+@media screen and (max-width: $mobile-width) {
+  .headerContainer {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    border-bottom: 1px solid $border-color;
+
+    &.expanded {
+      height: 400px;
+    }
+
+    &.notExpanded {
+      height: 140px;
+    }
+  }
+
+  .newBookButton {
+    width: 45%;
+    margin-right: $small-padding;
+  }
+
+  .searchButton {
+    width: 45%;
+    margin-left: $small-padding;
+  }
+
+  .searchSection {
+    margin-top: $small-padding;
+    margin-bottom: $large-padding;
+    &.showAll {
+      height: 265px;
+      overflow-y: auto;
+    }
+
+    &.showFirst {
+      height: calc(38px + $large-padding + $small-padding);
+      overflow-y: hidden;
+    }
+  }
+
+  .dropdownButton {
+    &.invisible {
+      margin-top: calc(-138px - $standard-padding * 2);
+    }
+    &.visible {
+      margin-top: $small-padding;
+    }
+  }
+}
+
+@media screen and (min-width: $mobile-width) {
+  .headerContainer {
+    width: 1200px;
+    align-items: center;
+    flex-direction: column;
+    border-bottom-left-radius: $standard-corner-radius;
+    border-bottom-right-radius: $standard-corner-radius;
+    outline: 1px solid $border-color;
+
+    &.expanded {
+      height: 400px;
+      gap: $standard-padding;
+    }
+
+    &.notExpanded {
+      height: 90px;
+      gap: calc($standard-padding * 2);
+    }
+  }
+  .newBookButton {
+    position: absolute;
+    left: $standard-padding;
+    top: $standard-padding;
+  }
+
+  .searchButton {
+    position: absolute;
+    right: $standard-padding;
+    top: $standard-padding;
+  }
+
+  .searchSection {
+    &.showAll {
+      overflow-y: auto;
+    }
+
+    &.showFirst {
+      overflow-y: hidden;
+    }
+  }
+
+  .dropdownButton {
+    &.invisible {
+      margin-top: calc(-38px - $standard-padding * 2);
+    }
+
+    &.visible {
+      margin-top: 0;
+    }
+  }
+}
+
 .headerContainer {
   display: flex;
-  flex-direction: column;
-  align-items: center;
 
   z-index: 2;
 
   position: absolute;
   background-color: $light-background;
-  border-bottom-left-radius: $standard-corner-radius;
-  border-bottom-right-radius: $standard-corner-radius;
-  outline: 1px solid $border-color;
-  width: 1200px;
   padding: $standard-padding;
-
-  &.expanded {
-    height: 400px;
-    gap: $standard-padding;
-  }
-
-  &.notExpanded {
-    height: 90px;
-    gap: calc($standard-padding * 2);
-  }
 
   transition: all 0.2s linear;
 
@@ -32,22 +121,13 @@
     flex-direction: column;
     align-items: center;
     padding: 0 $standard-padding;
-    height: inherit;
-    overflow-y: auto;
     width: 100%;
     gap: $standard-padding;
+    transition: height 0.2s linear;
   }
 
   .dropdownButton {
-    transition: margin-top 0.2s;
-
-    &.invisible {
-      margin-top: calc(-38px - $standard-padding * 2);
-    }
-
-    &.visible {
-      margin-top: 0;
-    }
+    transition: all 0.2s;
 
     .dropdownMenu {
       max-height: 300px;
@@ -56,18 +136,7 @@
   }
 
   .newBookButton {
-    width: fit-content;
-    position: absolute;
-    left: $standard-padding;
-    top: $standard-padding;
     white-space: nowrap;
-  }
-
-  .searchButton {
-    width: fit-content;
-    position: absolute;
-    right: $standard-padding;
-    top: $standard-padding;
   }
 
   .expandContainer {

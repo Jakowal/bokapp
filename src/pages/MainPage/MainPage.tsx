@@ -1,4 +1,4 @@
-import {searchBookByTitle} from "../../utils/cosmos-db.utils";
+import {ExcelDateToJSDate, searchBookByTitle} from "../../utils/cosmos-db.utils";
 import {useEffect, useState} from "react";
 import TableComponent from "../../components/TableComponent";
 import { BookModel } from "../../models/BookModel";
@@ -22,6 +22,18 @@ const MainPage = () => {
       setLoading(true);
       searchBookByTitle(searchFields)
         .then(response => response.json())
+        .then(result => {
+          result.map((book: any) => {
+            if (book.registeredDate) {
+              return {
+                ...book,
+                registeredDate: ExcelDateToJSDate(book.registeredDate)
+              }
+            }
+            return book;
+          })
+          return result;
+        })
         .then(result => setData(result))
         .finally(() => setLoading(false))
       setRunSearch(false);

@@ -1,22 +1,44 @@
 @import 'src/_variables.scss';
 
-.table {
-  width: 1000px;
+@media screen and (max-width: $mobile-width) {
+  .tableContainer {
+    margin-top: calc(130px + $standard-padding * 2);
+    border-top: 1px solid $border-color;
+    height: calc(100vh - 140px - $standard-padding);
+    width: 100%;
+  }
+
+  .table {
+    width: 1000px;
+  }
+
+}
+
+@media screen and (min-width: $mobile-width) {
+  .tableContainer {
+    margin-top: calc(100px + $standard-padding * 2);
+    border-radius: $standard-corner-radius;
+    outline: 1px solid $border-color;
+    height: 800px;
+  }
+
+  .table {
+    width: 1000px;
+  }
+
 }
 
 
 
 .tableContainer {
   padding: $standard-padding;
-  border-radius: $standard-corner-radius;
   background-color: $light-background;
-  outline: 1px solid $border-color;
-  height: 800px;
-  margin-top: calc(100px + $standard-padding * 2);
 
   .tableSection {
     overflow-y: auto;
+    overflow-x: auto;
     height: 100%;
+    width: 100%;
 
     .tableHeader {
       padding-top: $standard-padding;

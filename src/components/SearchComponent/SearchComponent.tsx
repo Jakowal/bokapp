@@ -7,7 +7,7 @@ interface Props {
   setSearchTerm: (newTerm: string) => void;
   searchField: string;
   searchTerm: string;
-  remove: () => void;
+  remove?: () => void;
 }
 
 const SearchComponent = (
@@ -26,11 +26,17 @@ const SearchComponent = (
         <Form.Control
           defaultValue={searchTerm}
           onChange={change => setSearchTerm(change.target.value)}
-          className={Style.inputField}
+          style={{
+            borderRight: remove ? 'unset' : ''
+          }}
         />
-        <button className={Style.removeButton} onClick={remove}>
-          <img alt="Chevron" src={Exit} className={Style.icon}/>
-        </button>
+        {
+          remove ? (
+            <button className={Style.removeButton} onClick={remove}>
+              <img alt="Chevron" src={Exit} className={Style.icon}/>
+            </button>
+          ) : null
+        }
       </InputGroup>
     </>
   )

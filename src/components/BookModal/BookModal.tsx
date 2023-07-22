@@ -1,8 +1,9 @@
-import {Button, Form, InputGroup, Modal} from "react-bootstrap";
+import {Button, Modal} from "react-bootstrap";
 import {BookModel, BookModelFieldTranslationsFromEnglish} from "../../models/BookModel";
 import {useEffect, useState} from "react";
 import {addBook, editBook} from "../../utils/cosmos-db.utils";
 import Style from './index.module.scss';
+import SearchComponent from "../SearchComponent";
 
 interface Props {
   show: boolean;
@@ -27,25 +28,29 @@ const BookModal = (
 
   return (
     <>
-      <Modal scrollable centered show={show} onHide={hide} className={Style.modal}>
+      <Modal scrollable centered size="lg" show={show} onHide={hide} className={Style.modal}>
         <Modal.Header closeButton>
           <Modal.Title>{bookToEdit ? 'Endre informasjon for bok' : 'Registrer ny bok'}</Modal.Title>
         </Modal.Header>
         <Modal.Body className={Style.modalBody}>
           {
             Object.entries(BookModelFieldTranslationsFromEnglish).map(([field, value]) => {
-              return (
-                <InputGroup size="sm" className="mb-3" key={field}>
-                  <InputGroup.Text>{value}</InputGroup.Text>
-                  <Form.Control
-                    defaultValue={bookToEdit ? bookToEdit[field as keyof BookModel] as string || '' : ''}
-                    onChange={change => setBook({
+              if (field !== 'bookNumber' && field !== 'id') {
+                let defaultValue = bookToEdit ? bookToEdit[field as keyof BookModel] as string || '' : ''
+                if (!defaultValue && field === 'registeredDate') {
+                  defaultValue = new Date().toJSON();
+                }
+                return (
+                  <SearchComponent
+                    setSearchTerm={change => setBook({
                       ...book,
-                      [field]: change.currentTarget.value,
+                      [field]: change,
                     })}
-                  />
-                </InputGroup>
-              )
+                    searchField={value}
+                    searchTerm={defaultValue}/>
+                )
+              }
+              return null;
             })
           }
         </Modal.Body>

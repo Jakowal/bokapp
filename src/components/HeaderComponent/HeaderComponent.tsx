@@ -7,7 +7,7 @@ import Chevron from '../../icons/chevron.svg';
 
 interface Props {
   runSearch: () => void;
-  searchFields: string[],
+  searchFields: any,
   addSearchField: (field: keyof BookModel) => void;
   changeSearchField: (field: keyof BookModel, value: string) => void
   setShowModal: (run: boolean) => void;
@@ -30,35 +30,37 @@ const HeaderComponent = (
   return (
     <div className={`${Style.headerContainer} ${expanded ? Style.expanded : Style.notExpanded}`}>
 
+      <Button className={Style.newBookButton} onClick={() => setShowModal(true)}>Ny bok</Button>
+      <Button className={Style.searchButton} onClick={runSearch} disabled={!Object.entries(searchFields).length}>Søk</Button>
+
       <Dropdown className={`${Style.dropdownButton} ${expanded || !Object.entries(searchFields).length ? Style.visible : Style.invisible}`}>
         <Dropdown.Toggle variant="success" id="dropdown-basic">
           Legg til felt å søke på
         </Dropdown.Toggle>
         <Dropdown.Menu className={Style.dropdownMenu}>
           {
-            Object.entries(BookModelFieldTranslationsFromEnglish).map(([field, value]) => (
-              <Dropdown.Item key={value} onClick={() => addSearchField(field as unknown as keyof BookModel)}>{value}</Dropdown.Item>
-            ))
+            Object.entries(BookModelFieldTranslationsFromEnglish).map(([field, value]) => {
+              if (searchFields[field as unknown as keyof BookModel] === undefined && field !== 'bookNumber' && field !== 'id') {
+                return <Dropdown.Item key={value} onClick={() => addSearchField(field as unknown as keyof BookModel)}>{value}</Dropdown.Item>
+              }
+              return null;
+            })
           }
         </Dropdown.Menu>
       </Dropdown>
 
-      <section className={Style.searchSection}>
+      <section className={`${Style.searchSection} ${expanded || !Object.entries(searchFields).length ? Style.showAll : Style.showFirst}`}>
         {
           Object.entries(searchFields).map(([field, value]) => (
             <SearchComponent
               key={field}
               searchField={field}
-              searchTerm={value}
+              searchTerm={value as string}
               remove={() => removeSearchField(field as unknown as keyof BookModel)}
               setSearchTerm={value => changeSearchField((field as unknown as keyof BookModel), value)}
             />))
         }
       </section>
-
-
-      <Button className={Style.searchButton} onClick={runSearch}>Søk</Button>
-      <Button className={Style.newBookButton} onClick={() => setShowModal(true)}>Ny bok</Button>
       <button className={Style.expandContainer} onClick={() => setExplanded(!expanded)}>
         <img alt="Chevron" src={Chevron} className={`${Style.icon} ${expanded ? Style.down : Style.up}`}/>
       </button>

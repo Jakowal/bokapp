@@ -1,16 +1,27 @@
 @import 'src/_variables.scss';
 
-.inputField {
-  width: 600px;
-  height: 38px;
+@media screen and (max-width: $mobile-width) {
+  .inputField {
+    width: calc((45% * 2) + ($small-padding * 2));
+  }
+  .inputText {
+    width: 100px;
+  }
+}
 
+@media screen and (min-width: $mobile-width) {
+  .inputField {
+    width: 600px;
+  }
   .inputText {
     width: 200px;
   }
+}
 
-  .inputField {
-    border-right: unset
-  }
+
+.inputField {
+  height: 38px;
+  border-right: unset;
 
   .removeButton {
     padding: 0 $standard-padding;

@@ -36,10 +36,10 @@ const TableComponent = (
       <section className={Style.tableSection}>
         <Table bordered striped hover size="sm" className={Style.table}>
           <thead className={Style.tableHeader}>
-          <tr>
-            <th>Rediger</th>
-            { shownColumns.map(value => <th key={value}>{BookModelFieldTranslationsFromEnglish[value]}</th>) }
-          </tr>
+            <tr>
+              <th>Rediger</th>
+              { shownColumns.map(value => <th key={value}>{BookModelFieldTranslationsFromEnglish[value]}</th>) }
+            </tr>
           </thead>
           <tbody className={Style.tableBody}>
           { data.map(entry => (
