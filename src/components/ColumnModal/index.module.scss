@@ -1,0 +1,30 @@
+@import 'src/_variables.scss';
+
+.modalBody {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: $standard-padding;
+
+  .inputGroup {
+    position: relative;
+  }
+
+  .inputButton {
+    all: unset;
+    width: fit-content;
+    gap: $small-padding;
+    align-items: center;
+    cursor: pointer;
+    border-radius: var(--bs-border-radius-sm);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    padding: $small-padding $standard-padding $small-padding $large-padding;
+  }
+
+  .inputCheckBox {
+    position: absolute;
+    top: calc($small-padding + 2px);
+    left: calc($small-padding + 2px);
+  }
+}

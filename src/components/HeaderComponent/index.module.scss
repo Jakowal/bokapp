@@ -20,13 +20,17 @@
   }
 
   .newBookButton {
-    width: 45%;
-    margin-right: $small-padding;
+    width: 30%;
   }
 
   .searchButton {
-    width: 45%;
+    width: 30%;
+  }
+
+  .columnsButtonButton {
     margin-left: $small-padding;
+    margin-right: $small-padding;
+    width: 30%;
   }
 
   .searchSection {
@@ -81,6 +85,12 @@
   .searchButton {
     position: absolute;
     right: $standard-padding;
+    top: $standard-padding;
+  }
+
+  .columnsButtonButton {
+    position: absolute;
+    right: calc($large-padding + 54px);
     top: $standard-padding;
   }
 

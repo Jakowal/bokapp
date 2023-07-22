@@ -1,35 +1,21 @@
 import {Table} from "react-bootstrap";
 import {BookModel, BookModelFieldTranslationsFromEnglish} from "../../models/BookModel";
-import {useEffect, useState} from "react";
 import Style from './index.module.scss';
 import Edit from "../../icons/edit.svg";
 
 interface Props {
   data: BookModel[];
   selectBook: (book: BookModel) => void;
+  shownColumns: (keyof BookModel)[]
 }
-
-const defaultColumns: (keyof BookModel)[] = [
-  'authorLastName',
-  'authorFirstName',
-  'title',
-  'edition',
-  'registeredDate',
-]
 
 const TableComponent = (
   {
     data,
     selectBook,
+    shownColumns
   }: Props
 ) => {
-
-
-  const [shownColumns, setShownColumns] = useState<(keyof BookModel)[]>(defaultColumns)
-
-  useEffect(() => {
-    setShownColumns(defaultColumns)
-  }, [])
 
   return (
     <div className={Style.tableContainer}>

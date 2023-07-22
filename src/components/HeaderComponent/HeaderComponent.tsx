@@ -10,7 +10,8 @@ interface Props {
   searchFields: any,
   addSearchField: (field: keyof BookModel) => void;
   changeSearchField: (field: keyof BookModel, value: string) => void
-  setShowModal: (run: boolean) => void;
+  setShowBookModal: (run: boolean) => void;
+  setShowColumnModal: (run: boolean) => void;
   removeSearchField: (field: keyof BookModel) => void;
 }
 
@@ -20,7 +21,8 @@ const HeaderComponent = (
     searchFields,
     addSearchField,
     changeSearchField,
-    setShowModal,
+    setShowBookModal,
+    setShowColumnModal,
     removeSearchField,
   }: Props
 ) => {
@@ -30,7 +32,8 @@ const HeaderComponent = (
   return (
     <div className={`${Style.headerContainer} ${expanded ? Style.expanded : Style.notExpanded}`}>
 
-      <Button className={Style.newBookButton} onClick={() => setShowModal(true)}>Ny bok</Button>
+      <Button className={Style.newBookButton} onClick={() => setShowBookModal(true)}>Ny bok</Button>
+      <Button className={Style.columnsButtonButton} onClick={() => setShowColumnModal(true)}>Kolonner</Button>
       <Button className={Style.searchButton} onClick={runSearch} disabled={!Object.entries(searchFields).length}>Søk</Button>
 
       <Dropdown className={`${Style.dropdownButton} ${expanded || !Object.entries(searchFields).length ? Style.visible : Style.invisible}`}>

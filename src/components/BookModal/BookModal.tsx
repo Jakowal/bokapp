@@ -42,6 +42,7 @@ const BookModal = (
                 }
                 return (
                   <SearchComponent
+                    key={field}
                     setSearchTerm={change => setBook({
                       ...book,
                       [field]: change,

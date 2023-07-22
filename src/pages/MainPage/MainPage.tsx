@@ -6,16 +6,27 @@ import BookModal from "../../components/BookModal";
 import Style from './index.module.scss';
 import HeaderComponent from "../../components/HeaderComponent";
 import {Spinner} from "react-bootstrap";
+import ColumnModal from "../../components/ColumnModal";
 
 
 const MainPage = () => {
+
+  const defaultColumns: (keyof BookModel)[] = [
+    'authorLastName',
+    'authorFirstName',
+    'title',
+    'edition',
+    'registeredDate',
+  ]
 
   const [data, setData] = useState<BookModel[]>([]);
   const [searchFields, setSearchFields] = useState<any>({});
   const [runSearch, setRunSearch] = useState(false);
   const [selectedBook, setSelectedBook] = useState<BookModel>();
-  const [showModal, setShowModal] = useState(false);
+  const [showBookModal, setShowBookModal] = useState(false);
+  const [showColumnModal, setShowColumnModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [shownColumns, setShownColumns] = useState<(keyof BookModel)[]>(defaultColumns);
 
   useEffect(() => {
     if (runSearch && searchFields) {
@@ -42,12 +53,12 @@ const MainPage = () => {
   }, [runSearch])
 
   const selectBook = (book: BookModel) => {
-    setShowModal(true);
+    setShowBookModal(true);
     setSelectedBook(book)
   }
 
-  const closeModal = () => {
-    setShowModal(false);
+  const closeBookModal = () => {
+    setShowBookModal(false);
     setSelectedBook(undefined);
   }
 
@@ -88,11 +99,22 @@ const MainPage = () => {
         runSearch={() => setRunSearch(true)}
         searchFields={searchFields}
         addSearchField={addSearchField}
-        setShowModal={setShowModal}
+        setShowBookModal={setShowBookModal}
+        setShowColumnModal={setShowColumnModal}
         removeSearchField={removeSearchField}
       />
-      <TableComponent data={data} selectBook={selectBook}/>
-      <BookModal show={showModal} hide={closeModal} bookToEdit={selectedBook}/>
+      <TableComponent data={data} selectBook={selectBook} shownColumns={shownColumns}/>
+      <BookModal
+        show={showBookModal}
+        hide={closeBookModal}
+        bookToEdit={selectedBook}
+      />
+      <ColumnModal
+        show={showColumnModal}
+        hide={() => setShowColumnModal(false)}
+        setShownColumns={setShownColumns}
+        shownColumns={shownColumns}
+      />
     </div>
   )
 }
