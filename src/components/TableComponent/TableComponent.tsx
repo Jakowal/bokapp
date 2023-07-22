@@ -2,6 +2,7 @@ import {Table} from "react-bootstrap";
 import {BookModel, BookModelFieldTranslationsFromEnglish} from "../../models/BookModel";
 import Style from './index.module.scss';
 import Edit from "../../icons/edit.svg";
+import format from "date-fns/format";
 
 interface Props {
   data: BookModel[];
@@ -16,6 +17,13 @@ const TableComponent = (
     shownColumns
   }: Props
 ) => {
+
+  const formatEntry = (entry: any): string => {
+    if (entry instanceof Date) {
+      return format(entry, 'dd.MM.yyyy');
+    }
+    else return entry as string;
+  }
 
   return (
     <div className={Style.tableContainer}>
@@ -37,7 +45,7 @@ const TableComponent = (
               </td>
               {
                 shownColumns.map(field => (
-                  <td key={entry[field] as string}>{entry[field] as string}</td>
+                  <td key={entry[field] as string}>{formatEntry(entry[field])}</td>
                 ))
               }
             </tr>

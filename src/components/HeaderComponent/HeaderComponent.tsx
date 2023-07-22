@@ -1,4 +1,4 @@
-import SearchComponent from "../SearchComponent";
+import TextInputComponent from "../TextInputComponent";
 import {Button, Dropdown} from "react-bootstrap";
 import {BookModel, BookModelFieldTranslationsFromEnglish} from "../../models/BookModel";
 import Style from './index.module.scss';
@@ -32,12 +32,12 @@ const HeaderComponent = (
   return (
     <div className={`${Style.headerContainer} ${expanded ? Style.expanded : Style.notExpanded}`}>
 
-      <Button className={Style.newBookButton} onClick={() => setShowBookModal(true)}>Ny bok</Button>
-      <Button className={Style.columnsButtonButton} onClick={() => setShowColumnModal(true)}>Kolonner</Button>
+      <Button className={Style.newBookButton} onClick={() => setShowBookModal(true)} variant="success">Ny bok</Button>
+      <Button className={Style.columnsButtonButton} onClick={() => setShowColumnModal(true)} variant="outline-primary">Kolonner</Button>
       <Button className={Style.searchButton} onClick={runSearch} disabled={!Object.entries(searchFields).length}>Søk</Button>
 
       <Dropdown className={`${Style.dropdownButton} ${expanded || !Object.entries(searchFields).length ? Style.visible : Style.invisible}`}>
-        <Dropdown.Toggle variant="success" id="dropdown-basic">
+        <Dropdown.Toggle variant="warning" id="dropdown-basic">
           Legg til felt å søke på
         </Dropdown.Toggle>
         <Dropdown.Menu className={Style.dropdownMenu}>
@@ -55,12 +55,13 @@ const HeaderComponent = (
       <section className={`${Style.searchSection} ${expanded || !Object.entries(searchFields).length ? Style.showAll : Style.showFirst}`}>
         {
           Object.entries(searchFields).map(([field, value]) => (
-            <SearchComponent
+            <TextInputComponent
               key={field}
-              searchField={field}
-              searchTerm={value as string}
+              bookModelField={field}
+              defaultValue={value as string}
               remove={() => removeSearchField(field as unknown as keyof BookModel)}
-              setSearchTerm={value => changeSearchField((field as unknown as keyof BookModel), value)}
+              onSubmit={runSearch}
+              setTextValue={value => changeSearchField((field as unknown as keyof BookModel), value)}
             />))
         }
       </section>

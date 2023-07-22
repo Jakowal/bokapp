@@ -3,7 +3,7 @@ import {BookModel, BookModelFieldTranslationsFromEnglish} from "../../models/Boo
 import {useEffect, useState} from "react";
 import {addBook, editBook} from "../../utils/cosmos-db.utils";
 import Style from './index.module.scss';
-import SearchComponent from "../SearchComponent";
+import TextInputComponent from "../TextInputComponent";
 
 interface Props {
   show: boolean;
@@ -41,14 +41,14 @@ const BookModal = (
                   defaultValue = new Date().toJSON();
                 }
                 return (
-                  <SearchComponent
+                  <TextInputComponent
                     key={field}
-                    setSearchTerm={change => setBook({
+                    setTextValue={change => setBook({
                       ...book,
                       [field]: change,
                     })}
-                    searchField={value}
-                    searchTerm={defaultValue}/>
+                    bookModelField={value}
+                    defaultValue={defaultValue}/>
                 )
               }
               return null;

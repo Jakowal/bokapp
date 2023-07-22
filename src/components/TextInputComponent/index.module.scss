@@ -2,7 +2,7 @@
 
 @media screen and (max-width: $mobile-width) {
   .inputField {
-    width: calc((90%) + ($standard-padding * 2) + 6px);
+    width: 100%;
   }
   .inputText {
     width: 100px;

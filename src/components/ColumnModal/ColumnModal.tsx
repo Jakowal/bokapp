@@ -1,6 +1,6 @@
 import {Button, Modal} from "react-bootstrap";
 import {BookModel, BookModelFieldTranslationsFromEnglish} from "../../models/BookModel";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import Style from './index.module.scss';
 
 interface Props {
@@ -20,8 +20,6 @@ const ColumnModal = (
 ) => {
 
   const [columns, setColumns] = useState(shownColumns);
-
-  useEffect(() => console.log(columns), [columns])
 
   const onSelect = (e: any, field: keyof BookModel) => {
     const index = columns.indexOf(field)

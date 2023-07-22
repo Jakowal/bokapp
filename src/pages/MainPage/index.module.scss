@@ -6,6 +6,19 @@ body {
   background: $background-color;
 }
 
+@media screen and (min-width: $mobile-width) {
+  .loadingContainer {
+    left: 47%;
+  }
+
+}
+
+@media screen and (max-width: $mobile-width) {
+  .loadingContainer {
+    left: 40%;
+  }
+}
+
 .mainPage {
   display: flex;
   flex-direction: column;
@@ -15,7 +28,6 @@ body {
   .loadingContainer {
     position: absolute;
     top: 45%;
-    left: 45%;
 
     .loading {
       height: 80px;

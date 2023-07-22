@@ -5,7 +5,7 @@ import {
 export const searchBookByTitle = async (searchFields?: any): Promise<any> => {
   const url = process.env.REACT_APP_LOCAL ? 'http://localhost:7071/api/searchBooks' : '/api/searchBooks';
   const params = searchFields ?
-    Object.entries(searchFields).map(([field, value]) => `${field}=${value}`) : undefined;
+    Object.entries(searchFields).map(([field, value]) => field && value ? `${field}=${value}` : null) : undefined;
   return fetch(`${url}${params ? `?${params.join('&')}` : ''}`);
 }
 
