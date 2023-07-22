@@ -35,7 +35,7 @@ export interface BookModel   {
   numberOfBooks?: number,
   gainOrLoss?: string;
   gainOrLossTotal?: number,
-  purchaseDate?: string;
+  purchaseDate?: Date;
   registeredDate?: Date;
   alternateName?: string;
   placeReference?: string;
