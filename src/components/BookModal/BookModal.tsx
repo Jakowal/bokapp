@@ -1,9 +1,10 @@
 import {Button, Modal} from "react-bootstrap";
 import {BookModel, BookModelFieldTranslationsFromEnglish} from "../../models/BookModel";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {addBook, editBook} from "../../utils/cosmos-db.utils";
 import Style from './index.module.scss';
 import TextInputComponent from "../TextInputComponent";
+import AuthContext from "../../AuthContext";
 
 interface Props {
   show: boolean;
@@ -20,6 +21,7 @@ const BookModal = (
 ) => {
 
   const [book, setBook] = useState(bookToEdit);
+  const user = useContext(AuthContext);
 
   useEffect(() => {
     setBook(bookToEdit);
@@ -61,7 +63,9 @@ const BookModal = (
             variant="primary"
             onClick={() => {
               hide();
-              bookToEdit ? editBook(book!) : addBook(book!);
+              if (user?.tenantId) {
+                bookToEdit ? editBook(user.tenantId, book!) : addBook(user.tenantId, book!);
+              }
             }}
           >Lagre</Button>
         </Modal.Footer>

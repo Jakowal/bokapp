@@ -9,7 +9,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
             'Access-Control-Allow-Credentials' : 'true', // Needed for cookies, authorization headers with HTTPS
             'Access-Control-Allow-Origin' : process.env.REACT_APP_LOCAL ? 'http://localhost:3000' : 'https://orange-smoke-0ea5f2d03.3.azurestaticapps.net', // Allow from this origin
             'Access-Control-Allow-Methods' : 'POST', // Allow these verbs
-            'Access-Control-Allow-Headers' : 'Authorization, Origin, X-Requested-With, Content-Type, Accept'
+            'Access-Control-Allow-Headers' : 'Authorization, Origin, X-Requested-With, Content-Type, Accept, x-tenant-id'
         },
     }
 
