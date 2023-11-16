@@ -69,7 +69,7 @@ const BookModal = (
                 editBook(book!).finally(runSearch)
               }
               else {
-                book!.userId = user?.tenantId;
+                book!.userId = user?.accessToken;
                 addBook(book!).finally(runSearch)
               }
             }}

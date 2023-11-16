@@ -3,8 +3,7 @@ import React from 'react';
 export interface User {
   username: string;
   email: string;
-  tenantId: string;
-  // include other user properties that you need
+  accessToken: string;
 }
 
 const AuthContext = React.createContext<User | null>(null);

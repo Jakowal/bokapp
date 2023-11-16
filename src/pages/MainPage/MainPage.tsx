@@ -34,7 +34,7 @@ const MainPage = () => {
   useEffect(() => {
     if (runSearch && searchFields && user) {
       setLoading(true);
-      searchBook(user.tenantId, searchFields)
+      searchBook(user.accessToken, searchFields)
         .then(response => response.json())
         .then(result => setData(result))
         .finally(() => setLoading(false))
