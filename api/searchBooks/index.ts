@@ -32,11 +32,13 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
         const parameters = []
 
         const query = Object.entries(req.query).map(([field, value], index) => {
+            const formattedValue = value.toUpperCase().replace(/\s*(.*)\s*/, '$1');
+
             parameters.push({
                 name: `@${field}`,
-                value: `%${value}%`
+                value: `%${formattedValue}%`
             })
-            return index > 0 ? `AND UPPER(c.${field}) LIKE UPPER(@${field})` : `UPPER(c.${field}) LIKE UPPER(@${field})`;
+            return index > 0 ? `AND UPPER(c.${field}) LIKE UPPER(@${field})` : `UPPER(c.${field}) LIKE ${formattedValue}`;
         });
 
         const querySpec = query ? {

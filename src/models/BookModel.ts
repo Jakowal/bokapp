@@ -35,8 +35,7 @@ export interface BookModel   {
   catalogueEntryShort?: string;
   store?: string;
   firstLetterCategory?: string;
-  lastChanged?: string
-  userId?: string
+  lastChanged?: Date;
 }
 export const BookModelFieldTranslationsFromEnglish: {[key in keyof BookModel]: string } = {
   id: "id",
