@@ -26,6 +26,7 @@ const TextInputComponent = (
       <InputGroup className={Style.inputField}>
         <InputGroup.Text className={Style.inputText}>{ BookModelFieldTranslationsFromEnglish[bookModelField as unknown as keyof BookModel] || bookModelField }</InputGroup.Text>
         <Form.Control
+          type={bookModelField.includes('Date') ? 'date' : undefined}
           defaultValue={defaultValue}
           onChange={change => setTextValue(change.target.value)}
           onKeyDown={keypress => {

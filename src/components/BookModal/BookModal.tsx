@@ -5,6 +5,7 @@ import {addBook, editBook} from "../../utils/cosmos-db.utils";
 import Style from './index.module.scss';
 import TextInputComponent from "../TextInputComponent";
 import AuthContext from "../../AuthContext";
+import format from "date-fns/format";
 
 interface Props {
   show: boolean;
@@ -39,19 +40,19 @@ const BookModal = (
         <Modal.Body className={Style.modalBody}>
           {
             Object.entries(BookModelFieldTranslationsFromEnglish).map(([field, value]) => {
-              if (field !== 'bookNumber' && field !== 'id') {
+              if (field !== 'bookNumber' && field !== 'id' && field !== 'lastChanged') {
                 let defaultValue = bookToEdit ? bookToEdit[field as keyof BookModel] as string || '' : ''
                 if (!defaultValue && field === 'registeredDate') {
-                  defaultValue = new Date().toJSON();
+                  defaultValue = format(new Date(), 'dd.MM.yyyy');
                 }
                 return (
                   <TextInputComponent
                     key={field}
                     setTextValue={change => setBook({
                       ...book,
-                      [field]: change,
+                      [field]: field.includes('Date') ? new Date(change) : change,
                     })}
-                    bookModelField={value}
+                    bookModelField={field}
                     defaultValue={defaultValue}/>
                 )
               }
@@ -65,6 +66,7 @@ const BookModal = (
             variant="primary"
             onClick={() => {
               hide();
+              book!.lastChanged = new Date();
               if (bookToEdit) {
                 editBook(book!).finally(runSearch)
               }

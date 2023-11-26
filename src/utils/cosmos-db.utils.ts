@@ -2,11 +2,17 @@ import {
   BookModel,
 } from "../models/BookModel";
 
-export const searchBook = async (tenantId: string, searchFields?: any): Promise<any> => {
+export const searchBook = async (token: string, searchFields?: any): Promise<any> => {
   const url = process.env.REACT_APP_LOCAL ? 'http://localhost:7071/api/searchBooks' : '/api/searchBooks';
   const params = searchFields ?
     Object.entries(searchFields).map(([field, value]) => field && value ? `${field}=${value}` : null) : undefined;
-  return fetch(`${url}${params ? `?${params.join('&')}&` : ''}tenantId=${tenantId}`);
+  return fetch(`${url}${params ? `?${params.join('&')}` : ''}`,
+    {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Access-Control-Allow-Origin' : process.env.REACT_APP_LOCAL ? 'http://localhost:7071' : 'https://orange-smoke-0ea5f2d03.3.azurestaticapps.net'
+      }
+    });
 }
 
 export const addBook = async (bookToAdd: BookModel): Promise<any> => {

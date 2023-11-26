@@ -30,14 +30,14 @@ const App = () => {
 
           msalInstance.acquireTokenSilent(tokenRequest)
             .then(tokenResponse => {
-              saveUserInfo(tokenResponse.accessToken, account);
+              saveUserInfo(tokenResponse.idToken, account);
             })
             .catch(error => {
               if (error instanceof InteractionRequiredAuthError) {
                 msalInstance
                   .acquireTokenPopup(tokenRequest)
                   .then(function (tokenResponse) {
-                    saveUserInfo(tokenResponse.accessToken, account);
+                    saveUserInfo(tokenResponse.idToken, account);
                   })
                   .catch(function (error) {
                     console.log(error);
