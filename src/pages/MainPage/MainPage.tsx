@@ -35,8 +35,8 @@ const MainPage = () => {
     if (runSearch && searchFields && user) {
       setLoading(true);
       searchBook(user.accessToken, searchFields)
-        .then(response => response.json())
-        .then(result => setData(result))
+        .then((response: any) => response.json())
+        .then((result: BookModel[]) => setData(result))
         .finally(() => setLoading(false))
       setRunSearch(false);
     }
