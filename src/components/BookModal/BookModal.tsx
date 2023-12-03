@@ -1,14 +1,17 @@
 import {Button, Modal} from "react-bootstrap";
 import {BookModel, BookModelFieldTranslationsFromEnglish} from "../../models/BookModel";
-import {useEffect, useState} from "react";
-import {addBook, editBook} from "../../utils/cosmos-db.utils";
+import {useContext, useEffect, useState} from "react";
+import {addBook, editBook} from "../../utils/cosmos-db.util";
 import Style from './index.module.scss';
 import TextInputComponent from "../TextInputComponent";
+import AuthContext from "../../AuthContext";
+import format from "date-fns/format";
 
 interface Props {
   show: boolean;
   hide: () => void
   bookToEdit?: BookModel
+  runSearch: () => void;
 }
 
 const BookModal = (
@@ -16,14 +19,16 @@ const BookModal = (
     show,
     hide,
     bookToEdit,
+    runSearch,
   }: Props
 ) => {
 
   const [book, setBook] = useState(bookToEdit);
+  const user = useContext(AuthContext);
 
   useEffect(() => {
     setBook(bookToEdit);
-  }, [bookToEdit])
+  }, [bookToEdit]);
 
 
   return (
@@ -35,19 +40,19 @@ const BookModal = (
         <Modal.Body className={Style.modalBody}>
           {
             Object.entries(BookModelFieldTranslationsFromEnglish).map(([field, value]) => {
-              if (field !== 'bookNumber' && field !== 'id') {
+              if (field !== 'bookNumber' && field !== 'id' && field !== 'lastChanged') {
                 let defaultValue = bookToEdit ? bookToEdit[field as keyof BookModel] as string || '' : ''
                 if (!defaultValue && field === 'registeredDate') {
-                  defaultValue = new Date().toJSON();
+                  defaultValue = format(new Date(), 'dd.MM.yyyy');
                 }
                 return (
                   <TextInputComponent
                     key={field}
                     setTextValue={change => setBook({
                       ...book,
-                      [field]: change,
+                      [field]: field.includes('Date') ? new Date(change) : change,
                     })}
-                    bookModelField={value}
+                    bookModelField={field}
                     defaultValue={defaultValue}/>
                 )
               }
@@ -61,7 +66,14 @@ const BookModal = (
             variant="primary"
             onClick={() => {
               hide();
-              bookToEdit ? editBook(book!) : addBook(book!);
+              book!.lastChanged = new Date();
+              if (bookToEdit) {
+                editBook(book!).finally(runSearch)
+              }
+              else {
+                book!.userId = user?.accessToken;
+                addBook(book!).finally(runSearch)
+              }
             }}
           >Lagre</Button>
         </Modal.Footer>

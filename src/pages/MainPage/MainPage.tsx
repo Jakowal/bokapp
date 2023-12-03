@@ -1,5 +1,5 @@
-import {searchBookByTitle} from "../../utils/cosmos-db.utils";
-import {useEffect, useState} from "react";
+import {searchBook} from "../../utils/cosmos-db.util";
+import {useContext, useEffect, useState} from "react";
 import TableComponent from "../../components/TableComponent";
 import { BookModel } from "../../models/BookModel";
 import BookModal from "../../components/BookModal";
@@ -7,6 +7,7 @@ import Style from './index.module.scss';
 import HeaderComponent from "../../components/HeaderComponent";
 import {Spinner} from "react-bootstrap";
 import ColumnModal from "../../components/ColumnModal";
+import AuthContext from "../../AuthContext";
 
 
 const MainPage = () => {
@@ -28,10 +29,12 @@ const MainPage = () => {
   const [loading, setLoading] = useState(false);
   const [shownColumns, setShownColumns] = useState<(keyof BookModel)[]>(defaultColumns);
 
+  const user = useContext(AuthContext);
+
   useEffect(() => {
-    if (runSearch && searchFields) {
+    if (runSearch && searchFields && user) {
       setLoading(true);
-      searchBookByTitle(searchFields)
+      searchBook(user.accessToken, searchFields)
         .then(response => response.json())
         .then(result => setData(result))
         .finally(() => setLoading(false))
@@ -96,6 +99,7 @@ const MainPage = () => {
         show={showBookModal}
         hide={closeBookModal}
         bookToEdit={selectedBook}
+        runSearch={() => setRunSearch(true)}
       />
       <ColumnModal
         show={showColumnModal}
