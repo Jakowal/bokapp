@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
 import MainPage from "./pages/MainPage";
-import {AccountInfo, InteractionRequiredAuthError, PublicClientApplication} from "@azure/msal-browser";
-import { msalConfig, loginRequest } from "./AuthConfig";
-import AuthContext, {User} from './AuthContext';
+import { AccountInfo, InteractionRequiredAuthError } from "@azure/msal-browser";
+import msalInstance, { loginRequest } from "./AuthConfig";
+import AuthContext, { User } from './AuthContext';
 
-const msalInstance = new PublicClientApplication(msalConfig);
 const App = () => {
   const [user, setUser] = useState<User | null>(null);
 
@@ -18,24 +17,21 @@ const App = () => {
   }
 
   useEffect(() => {
-    const handleLogin = () => {
-      msalInstance.loginPopup(loginRequest)
-        .finally(() => {
-          const account = msalInstance.getAllAccounts()[0];
+    const handleLogin = async () => {
+      const accountId = localStorage.getItem('userHomeAccountId');
+      if(accountId) {
+        const account = msalInstance.getAccountByHomeId(accountId)
 
-          const tokenRequest = {
-            scopes: ["user.read"],
-            account,
-          }
-
-          msalInstance.acquireTokenSilent(tokenRequest)
+        if (account) {
+          console.log(account)
+          msalInstance.acquireTokenSilent(loginRequest)
             .then(tokenResponse => {
               saveUserInfo(tokenResponse.idToken, account);
             })
             .catch(error => {
               if (error instanceof InteractionRequiredAuthError) {
                 msalInstance
-                  .acquireTokenPopup(tokenRequest)
+                  .acquireTokenPopup(loginRequest)
                   .then(function (tokenResponse) {
                     saveUserInfo(tokenResponse.idToken, account);
                   })
@@ -44,10 +40,18 @@ const App = () => {
                   });
               }
             })
-        })
-        .catch(err => {
-          console.log(err);
-        });
+        }
+      }
+      else {
+        msalInstance.loginPopup(loginRequest)
+          .finally(() => {
+            const account = msalInstance.getAllAccounts()[0];
+            localStorage.setItem('userHomeAccountId', account.homeAccountId)
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
     }
 
     handleLogin();

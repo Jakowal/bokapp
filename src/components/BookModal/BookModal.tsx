@@ -1,7 +1,7 @@
 import {Button, Modal} from "react-bootstrap";
 import {BookModel, BookModelFieldTranslationsFromEnglish} from "../../models/BookModel";
 import {useContext, useEffect, useState} from "react";
-import {addBook, editBook} from "../../utils/cosmos-db.utils";
+import {addBook, editBook} from "../../utils/cosmos-db.util";
 import Style from './index.module.scss';
 import TextInputComponent from "../TextInputComponent";
 import AuthContext from "../../AuthContext";
@@ -28,7 +28,7 @@ const BookModal = (
 
   useEffect(() => {
     setBook(bookToEdit);
-  }, [bookToEdit])
+  }, [bookToEdit]);
 
 
   return (

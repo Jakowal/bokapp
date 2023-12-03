@@ -31,22 +31,27 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 
         const parameters = []
 
-        const tenantId = req.query.tenantId;
+        const bearerToken = req.params.authorization;
+
+        console.log(bearerToken) // TODO: Use this token for auth
 
         const query = Object.entries(req.query).map(([field, value], index) => {
-            if (field !== 'tenantId') {
+            if (field !== 'authorization') {
+                const formattedValue = value.toUpperCase().replace(/\s*([^ ].*[^ ])\s*/, '$1');
+
+                console.log(`|${value}|`, `|${formattedValue}|`)
 
                 parameters.push({
                     name: `@${field}`,
-                    value: `%${value}%`
+                    value: `%${formattedValue}%`
                 })
-                return index > 0 ? `AND UPPER(c.${field}) LIKE UPPER(@${field})` : `UPPER(c.${field}) LIKE UPPER(@${field})`;
+                return index > 0 ? `AND UPPER(c.${field}) LIKE UPPER(@${field})` : `UPPER(c.${field}) LIKE @${field}`;
             }
             return null;
         });
 
         const querySpec = query ? {
-            query: `SELECT * FROM c WHERE ${query.join(' ')} AND c.userId="${tenantId}"`,
+            query: `SELECT * FROM c WHERE ${query.join(' ')}`,
             parameters: parameters,
         } : {
             query: "SELECT TOP 10 * FROM c",

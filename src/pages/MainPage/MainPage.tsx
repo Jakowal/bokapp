@@ -1,4 +1,4 @@
-import {searchBook} from "../../utils/cosmos-db.utils";
+import {searchBook} from "../../utils/cosmos-db.util";
 import {useContext, useEffect, useState} from "react";
 import TableComponent from "../../components/TableComponent";
 import { BookModel } from "../../models/BookModel";
