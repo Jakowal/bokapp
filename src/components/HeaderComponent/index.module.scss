@@ -4,9 +4,9 @@
 @media screen and (max-width: $mobile-width) {
   .headerContainer {
     width: 100%;
-    justify-content: space-evenly;
     align-items: flex-start;
     border-bottom: 1px solid $border-color;
+    padding: $standard-padding;
 
     &.expanded {
       height: 400px;
@@ -17,40 +17,52 @@
     }
   }
 
+  .expandContainer {
+    margin-top: calc(0px - calc($small-padding * 5)) !important;
+    padding: 0 0 !important;
+    height: 18px !important;
+  }
+
   .newBookButton {
     width: 30%;
+    left: $standard-padding;
+    top: $standard-padding;
   }
 
   .searchButton {
     width: 30%;
+    right: $standard-padding;
+    top: $standard-padding;
   }
 
   .columnsButtonButton {
-    margin-left: $small-padding;
-    margin-right: $small-padding;
+    right: calc($standard-padding + ($small-padding / 2) + 30%);
+    top: $standard-padding;
     width: 30%;
   }
 
   .searchSection {
     margin-top: $small-padding;
-    margin-bottom: $large-padding;
+    gap: $small-padding;
     &.showAll {
       height: 265px;
       overflow-y: auto;
     }
 
     &.showFirst {
-      height: calc(38px + $large-padding + $small-padding);
+      height: 38px;
+      margin-top: calc(76px + $standard-padding * 1.25);
       overflow-y: hidden;
     }
   }
 
   .dropdownButton {
+    align-self: center;
     &.invisible {
-      margin-top: calc(-138px - $standard-padding * 2);
+      margin-top: calc(-76px - $standard-padding * 2);
     }
     &.visible {
-      margin-top: $small-padding;
+      margin-top: calc($standard-padding * 2.5);
     }
   }
 }
@@ -59,6 +71,7 @@
   .headerContainer {
     width: 85%;
     align-items: center;
+    flex-direction: column;
     border-bottom-left-radius: $standard-corner-radius;
     border-bottom-right-radius: $standard-corner-radius;
     outline: 1px solid $border-color;
@@ -68,28 +81,34 @@
     }
 
     &.notExpanded {
-      height: 90px;
+      height: 97px;
     }
   }
+
+  .expandContainer {
+    margin-top: calc(0px - calc($standard-padding * 2)) !important;
+    padding: $small-padding 0 !important;
+    height: 20px !important;
+  }
+
   .newBookButton {
-    position: absolute;
     left: $standard-padding;
     top: $standard-padding;
   }
 
   .searchButton {
-    position: absolute;
     right: $standard-padding;
     top: $standard-padding;
   }
 
   .columnsButtonButton {
-    position: absolute;
     right: calc($large-padding + 54px);
     top: $standard-padding;
   }
 
   .searchSection {
+    height: 100%;
+    gap: $standard-padding;
     &.showAll {
       overflow-y: auto;
     }
@@ -123,14 +142,24 @@
 
   transition: all 0.2s linear;
 
+  .newBookButton {
+    position: absolute;
+  }
+
+  .searchButton {
+    position: absolute;
+  }
+
+  .columnsButtonButton {
+    position: absolute;
+  }
+
   .searchSection {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 0 $standard-padding;
     width: 100%;
-    height: 100%;
-    gap: $standard-padding;
     transition: height 0.2s linear;
   }
 
@@ -149,9 +178,6 @@
 
   .expandContainer {
     all: unset;
-    position: relative;
-    margin-top: calc(0px - calc($standard-padding * 2));
-    bottom: 0;
     width: 100%;
     background-color: $light-background;
     display: flex;
@@ -160,8 +186,6 @@
     border-top: 1px solid $vague-border-color;
     border-bottom-left-radius: $standard-corner-radius;
     border-bottom-right-radius: $standard-corner-radius;
-    padding: $small-padding 0;
-    height: 20px;
     cursor: pointer;
 
     .icon {
