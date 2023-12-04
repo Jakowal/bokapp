@@ -4,12 +4,12 @@
   .tableContainer {
     margin-top: calc($standard-padding * 2);
     border-top: 1px solid $border-color;
-    height: calc(100vh - 140px - $standard-padding);
+    height: 100%;
     width: 100%;
   }
 
   .table {
-    width: 1000px;
+    width: 800px;
   }
 }
 
