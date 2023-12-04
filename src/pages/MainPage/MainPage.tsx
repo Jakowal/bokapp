@@ -29,7 +29,8 @@ const MainPage = () => {
   const [loading, setLoading] = useState(false);
   const [shownColumns, setShownColumns] = useState<(keyof BookModel)[]>(defaultColumns);
 
-  // const user = useContext(AuthContext);
+   const user = useContext(AuthContext);
+  console.log(user);
 
   useEffect(() => {
     if (runSearch && searchFields) {
