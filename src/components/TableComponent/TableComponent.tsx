@@ -8,13 +8,15 @@ interface Props {
   data: BookModel[];
   selectBook: (book: BookModel) => void;
   shownColumns: (keyof BookModel)[]
+  headerExpanded: boolean;
 }
 
 const TableComponent = (
   {
     data,
     selectBook,
-    shownColumns
+    shownColumns,
+    headerExpanded
   }: Props
 ) => {
 
@@ -26,7 +28,7 @@ const TableComponent = (
   }
 
   return (
-    <div className={Style.tableContainer}>
+    <div className={`${Style.tableContainer} ${headerExpanded ? Style.headerExpanded : Style.headerNotExpanded}`}>
       <section className={Style.tableSection}>
         <Table bordered striped hover size="sm" className={Style.table}>
           <thead className={Style.tableHeader}>

@@ -2,7 +2,6 @@ import TextInputComponent from "../TextInputComponent";
 import {Button, Dropdown} from "react-bootstrap";
 import {BookModel, BookModelFieldTranslationsFromEnglish} from "../../models/BookModel";
 import Style from './index.module.scss';
-import {useState} from "react";
 import Chevron from '../../icons/chevron.svg';
 
 interface Props {
@@ -13,6 +12,8 @@ interface Props {
   setShowBookModal: (run: boolean) => void;
   setShowColumnModal: (run: boolean) => void;
   removeSearchField: (field: keyof BookModel) => void;
+  expanded: boolean;
+  setExpanded: (expand: boolean) => void;
 }
 
 const HeaderComponent = (
@@ -24,10 +25,10 @@ const HeaderComponent = (
     setShowBookModal,
     setShowColumnModal,
     removeSearchField,
+    expanded,
+    setExpanded,
   }: Props
 ) => {
-
-  const [expanded, setExplanded] = useState(false);
 
   return (
     <div className={`${Style.headerContainer} ${expanded ? Style.expanded : Style.notExpanded}`}>
@@ -65,7 +66,7 @@ const HeaderComponent = (
             />))
         }
       </section>
-      <button className={Style.expandContainer} onClick={() => setExplanded(!expanded)}>
+      <button className={Style.expandContainer} onClick={() => setExpanded(!expanded)}>
         <img alt="Chevron" src={Chevron} className={`${Style.icon} ${expanded ? Style.down : Style.up}`}/>
       </button>
     </div>

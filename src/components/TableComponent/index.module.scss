@@ -4,8 +4,16 @@
   .tableContainer {
     margin-top: calc($standard-padding * 2);
     border-top: 1px solid $border-color;
-    height: 100%;
     width: 100%;
+
+
+    &.headerExpanded {
+      height: calc(100vh - 400px - calc($standard-padding * 1.5));
+    }
+
+    &.headerNotExpanded {
+      height: calc(100vh - 97px - calc($standard-padding * 4));
+    }
   }
 
   .table {
@@ -30,6 +38,7 @@
 .tableContainer {
   padding: $standard-padding;
   background-color: $light-background;
+  transition: all 0.2s linear;
 
   .tableSection {
     overflow-y: auto;

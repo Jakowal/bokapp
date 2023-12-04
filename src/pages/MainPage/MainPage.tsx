@@ -28,6 +28,7 @@ const MainPage = () => {
   const [showColumnModal, setShowColumnModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [shownColumns, setShownColumns] = useState<(keyof BookModel)[]>(defaultColumns);
+  const [headerExpanded, setHeaderExpanded] = useState(false);
 
    const user = useContext(AuthContext);
    console.log(user);
@@ -94,8 +95,10 @@ const MainPage = () => {
         setShowBookModal={setShowBookModal}
         setShowColumnModal={setShowColumnModal}
         removeSearchField={removeSearchField}
+        expanded={headerExpanded}
+        setExpanded={setHeaderExpanded}
       />
-      <TableComponent data={data} selectBook={selectBook} shownColumns={shownColumns}/>
+      <TableComponent data={data} selectBook={selectBook} shownColumns={shownColumns} headerExpanded={headerExpanded}/>
       <BookModal
         show={showBookModal}
         hide={closeBookModal}
