@@ -32,9 +32,9 @@ const MainPage = () => {
   const user = useContext(AuthContext);
 
   useEffect(() => {
-    if (runSearch && searchFields && user) {
+    if (runSearch && searchFields) {
       setLoading(true);
-      searchBook(user.accessToken, searchFields)
+      searchBook('dummy', searchFields)
         .then((response: any) => response.json())
         .then((result: BookModel[]) => setData(formatBooks(result)))
         .finally(() => setLoading(false))
