@@ -2,33 +2,30 @@
 
 @media screen and (max-width: $mobile-width) {
   .tableContainer {
-    margin-top: calc(130px + $standard-padding * 2);
+    margin-top: calc($standard-padding * 2);
     border-top: 1px solid $border-color;
-    height: calc(100vh - 140px - $standard-padding);
+    height: 100%;
     width: 100%;
   }
 
   .table {
-    width: 1000px;
+    width: 800px;
   }
-
 }
 
 @media screen and (min-width: $mobile-width) {
   .tableContainer {
-    margin-top: calc(100px + $standard-padding * 2);
+    margin-top: calc($standard-padding * 2);
     border-radius: $standard-corner-radius;
     outline: 1px solid $border-color;
+    width: 85%;
     height: 800px;
   }
 
   .table {
-    width: 1000px;
+    width: 100%;
   }
-
 }
-
-
 
 .tableContainer {
   padding: $standard-padding;
