@@ -26,4 +26,13 @@ export const editBook = async (bookToAdd: BookModel): Promise<any> => {
   });
 }
 
+export const formatBooks = (books: BookModel[]) =>
+  books.map(book => ({
+    ...book,
+    saleDate: book.saleDate ? new Date(book.saleDate) : undefined,
+    purchaseDate: book.purchaseDate ? new Date(book.purchaseDate) : undefined,
+    registeredDate: book.registeredDate ? new Date(book.registeredDate) : undefined,
+    lastChanged: book.lastChanged ? new Date(book.lastChanged) : undefined,
+  }));
+
 export {}

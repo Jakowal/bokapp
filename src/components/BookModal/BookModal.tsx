@@ -42,8 +42,11 @@ const BookModal = (
             Object.entries(BookModelFieldTranslationsFromEnglish).map(([field, value]) => {
               if (field !== 'bookNumber' && field !== 'id' && field !== 'lastChanged') {
                 let defaultValue = bookToEdit ? bookToEdit[field as keyof BookModel] as string || '' : ''
-                if (!defaultValue && field === 'registeredDate') {
-                  defaultValue = format(new Date(), 'dd.MM.yyyy');
+                if (!defaultValue && field.includes('Date')) {
+                  defaultValue = format(new Date(), 'yyyy-MM-dd');
+                }
+                else if (field.includes('Date')) {
+                  defaultValue = format(bookToEdit![field as keyof BookModel] as Date, 'yyyy-MM-dd')
                 }
                 return (
                   <TextInputComponent

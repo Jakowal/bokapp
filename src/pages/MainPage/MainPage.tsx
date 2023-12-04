@@ -1,4 +1,4 @@
-import {searchBook} from "../../utils/cosmos-db.util";
+import {formatBooks, searchBook} from "../../utils/cosmos-db.util";
 import {useContext, useEffect, useState} from "react";
 import TableComponent from "../../components/TableComponent";
 import { BookModel } from "../../models/BookModel";
@@ -36,7 +36,7 @@ const MainPage = () => {
       setLoading(true);
       searchBook(user.accessToken, searchFields)
         .then((response: any) => response.json())
-        .then((result: BookModel[]) => setData(result))
+        .then((result: BookModel[]) => setData(formatBooks(result)))
         .finally(() => setLoading(false))
       setRunSearch(false);
     }
